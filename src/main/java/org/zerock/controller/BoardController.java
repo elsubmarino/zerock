@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,8 +21,8 @@ import org.zerock.service.BoardService;
 public class BoardController {
 	@Inject
 	private BoardService service;
-	
-	private static final Logger logger=LoggerFactory.getLogger(BoardController.class);
+
+	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public void registerGET(BoardVO board, Model model) throws Exception {
@@ -65,24 +66,52 @@ public class BoardController {
 		rttr.addFlashAttribute("msg", "SUCCESS");
 		return "redirect:/board/listAll";
 	}
-	
-	@RequestMapping(value="/listCri",method=RequestMethod.GET)
-	public void listAll(Criteria cri,Model model) throws Exception{
+
+	@RequestMapping(value = "/listCri", method = RequestMethod.GET)
+	public void listAll(Criteria cri, Model model) throws Exception {
 		logger.info("Show list page with criteria........");
-		model.addAttribute("list",service.listCriteria(cri));
+		model.addAttribute("list", service.listCriteria(cri));
 	}
-	
-	@RequestMapping(value="/listPage",method=RequestMethod.GET)
-	public void listPage(Criteria cri, Model model) throws Exception{
+
+	@RequestMapping(value = "/listPage", method = {RequestMethod.GET,RequestMethod.POST})
+	public void listPage(Criteria cri, Model model) throws Exception {
 		logger.info(cri.toString());
-		
-		model.addAttribute("list",service.listCriteria(cri));
-		PageMaker pageMaker=new PageMaker();
+
+		model.addAttribute("list", service.listCriteria(cri));
+		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		//pageMaker.setTotalCount(131);
-		
+		// pageMaker.setTotalCount(131);
+
 		pageMaker.setTotalCount(service.listCountCriteria(cri));
-		
-		model.addAttribute("pageMaker",pageMaker);
+
+		model.addAttribute("pageMaker", pageMaker);
+	}
+
+	@RequestMapping(value = "/readPage", method = RequestMethod.GET)
+	public void read(@RequestParam("bno") int bno, @ModelAttribute("cri") Criteria cri, Model model) throws Exception {
+		model.addAttribute(service.read(bno));
+	}
+
+	@RequestMapping(value = "/removePage", method = RequestMethod.GET)
+	public String remove(@RequestParam("bno") int bno, Criteria cri, Model model) throws Exception {
+		service.remove(bno);
+		model.addAttribute("page", cri.getPage());
+		model.addAttribute("perPageNum", cri.getPage());
+		// rttr.addFlashAttribute("perPageNum",cri.getPerPageNum());
+		return "redirect:/board/listPage";
+	}
+
+	@RequestMapping(value = "/modifyPage", method = RequestMethod.GET)
+	public void modifyPagingGET(@RequestParam("bno") int bno, @ModelAttribute("cri") Criteria cri, Model model)
+			throws Exception {
+		model.addAttribute(service.read(bno));
+	}
+
+	@RequestMapping(value = "/modifyPage", method = RequestMethod.POST)
+	public String modifyPagingPost(BoardVO board, Criteria cri,Model model) throws Exception {
+		service.modify(board);
+		model.addAttribute("page",cri.getPage());
+		model.addAttribute("perPageNum",cri.getPerPageNum());
+		return "redirect:/board/listPage";
 	}
 }

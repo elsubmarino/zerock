@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@include file="../include/header.jsp"%>
+
 <table class="table table-bordered">
 	<tr>
 		<th style="width: 10px">BNO</th>
@@ -39,6 +40,7 @@
 		</c:if>
 	</ul>
 </div>
+
 <%@include file="../include/footer.jsp"%>
 
 
