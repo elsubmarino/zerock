@@ -27,6 +27,11 @@ public class PageMaker {
 		UriComponents uriComponents = UriComponentsBuilder.newInstance().queryParam("page", page).queryParam("perPageNum", cri.getPerPageNum()).build();
 		return uriComponents.toUriString();
 	}
+	
+	public String makeSearch(int page){
+		UriComponents uriComponents = UriComponentsBuilder.newInstance().queryParam("page", page).queryParam("perPageNum", cri.getPerPageNum()).queryParam("searchType", ((SearchCriteria)cri).getSearchType()).queryParam("keyword",((SearchCriteria)cri).getKeyword()).build();
+		return uriComponents.toUriString();
+	}
 
 	private void calcData() {
 		endPage = (int) (Math.ceil(cri.getPage() / (double) displayPageNum) * displayPageNum);//10
