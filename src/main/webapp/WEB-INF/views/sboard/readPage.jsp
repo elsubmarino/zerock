@@ -1,6 +1,10 @@
 <%@include file="../include/header.jsp"%>
-<form role="form" method="POST">
-	<input type="hidden" name="bno" value="${boardVO.bno }">
+<form role="form" method="POST" action="modifyPage">
+	<input type="hidden" name="bno" value="${boardVO.bno }"> <input
+		type="hidden" name="page" value="${cri.page }"> <input
+		type="hidden" name="perPageNum" value="${cri.perPageNum }">
+		<input type="hidden" name="searchType" value="${cri.searchType }"/>
+		<input type="hidden" name="keyword" value="${cri.keyword }"/>
 </form>
 <div class="box-body">
 	<div class="form-group">
@@ -33,18 +37,20 @@
 		console.log(formObj);
 
 		$(".btn-warning").on("click", function() {
-			formObj.attr("action", "/board/modify");
+			formObj.attr("action", "/sboard/modifyPage");
 			formObj.attr("method", "get");
 			formObj.submit();
 		});
 
 		$(".btn-danger").on("click", function() {
-			formObj.attr("action", "/board/remove");
+			formObj.attr("action", "/sboard/removePage");
 			formObj.submit();
 		});
 
 		$(".btn-primary").on("click", function() {
-			self.location = "/board/listAll";
+			formObj.attr("method", "get");
+			formObj.attr("action", "/sboard/list");
+			formObj.submit();
 		});
 
 	});

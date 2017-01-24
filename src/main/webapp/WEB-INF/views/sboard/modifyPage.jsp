@@ -35,7 +35,7 @@
 		console.log(formObj);
 
 		$(".btn-warning").on("click", function() {
-			self.location = "/board/listPage?page=${cri.page}&perPageNum=${cri.perPageNum}";
+			self.location = "/sboard/list?page=${cri.page}&perPageNum=${cri.perPageNum}"+"&searchType=${cri.searchType}&keyword=${cri.keyword}";
 		});
 
 		$(".btn-primary").on("click", function() {
