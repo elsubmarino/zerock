@@ -54,14 +54,15 @@ public class SearchBoardController {
 	
 	
 	@RequestMapping(value="/removePage",method=RequestMethod.POST)
-	public String remove(@RequestParam("bno") int bno, SearchCriteria cri, Model model) throws Exception{
+ String remove(@RequestParam("bno") int bno, SearchCriteria cri, RedirectAttributes rttr) throws Exception{
 		service.remove(bno);
 		
 		
-		model.addAttribute("page",cri.getPage());
-		model.addAttribute("perPageNum",cri.getPerPageNum());
-		model.addAttribute("searchType",cri.getSearchType());
-		model.addAttribute("keyboard",cri.getKeyword());
+		rttr.addAttribute("page",cri.getPage());
+		rttr.addAttribute("perPageNum",cri.getPerPageNum());
+		rttr.addAttribute("searchType",cri.getSearchType());
+		rttr.addAttribute("keyboard",cri.getKeyword());
+		rttr.addFlashAttribute("msg","SUCCESS");
 		
 		
 		return "redirect:/sboard/list";
