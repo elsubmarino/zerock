@@ -26,7 +26,6 @@ public class BoardController {
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public void registerGET(BoardVO board, Model model) throws Exception {
-		System.out.println("get");
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -39,7 +38,6 @@ public class BoardController {
 
 	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
 	public void listAll(Model model) throws Exception {
-		System.out.println("show all lists...");
 		model.addAttribute("list", service.listAll());
 	}
 

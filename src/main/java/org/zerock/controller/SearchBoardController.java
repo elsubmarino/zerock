@@ -34,8 +34,6 @@ public class SearchBoardController {
 		model.addAttribute("list",service.listSearchCriteria(cri));
 		List<BoardVO> list=service.listSearchCriteria(cri);
 		for(BoardVO vo:list){
-			System.out.println(vo.getTitle());
-			System.out.println(vo.getContent());
 		}
 		
 		PageMaker pageMaker = new PageMaker();
