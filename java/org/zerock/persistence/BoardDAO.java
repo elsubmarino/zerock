@@ -21,15 +21,19 @@ public interface BoardDAO {
 	public List<BoardVO> listPage(int page) throws Exception;
 
 	public List<BoardVO> listCriteria(Criteria cri) throws Exception;
-	
+
 	public int countPaging(Criteria cri) throws Exception;
-	
-	public List<BoardVO> listSearch(SearchCriteria cri)throws Exception;
-	
+
+	public List<BoardVO> listSearch(SearchCriteria cri) throws Exception;
+
 	public int listSearchCount(SearchCriteria cri) throws Exception;
-	
-	public void updateReplyCnt(Integer bno,int amount) throws Exception;
-	
-	public void updateViewCnt(Integer bno)throws Exception;
+
+	public void updateReplyCnt(Integer bno, int amount) throws Exception;
+
+	public void updateViewCnt(Integer bno) throws Exception;
+
+	public void addAttach(String fullName) throws Exception;
+
+	public List<String> getAttach(Integer bno) throws Exception;
 
 }

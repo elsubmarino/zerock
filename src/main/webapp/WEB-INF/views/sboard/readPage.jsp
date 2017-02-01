@@ -87,6 +87,7 @@
 			</div>
 		</div>
 	</div>
+	<ul class="mailbox-attachments clearfix uploadedList"></ul>
 
 </div>
 <script
@@ -127,6 +128,14 @@
 
 	var bno = ${boardVO.bno};
 	var replyPage = 1;
+	var template=Handlebars.compile($("#templateAttach").html());
+	$.getJSON("/sboard/getAttach/"+bno,function(list){
+		$(list).each(function(){
+			var fileInfo=getFileInfo(this);
+			var html=template(fileInfo);
+			$(".uploadedList").append(html);
+		})
+	});
 
 	function getPage(pageInfo) {
 		$.getJSON(pageInfo, function(data) {

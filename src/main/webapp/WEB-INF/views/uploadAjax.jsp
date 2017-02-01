@@ -26,13 +26,45 @@ small {
 	<div class="uploadedList"></div>
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script>
+		function getOriginalName(fileName){
+			if(checkImageType(fileName)){
+				return;
+			}
+			
+			var idx=fileName.indexOf("_")+1;
+			return fileName.substr(idx);
+		}
 		function checkImageType(fileName) {
 			var pattern = /jpg|gif|png|jpeg/i;
 
 			return fileName.match(pattern);
 		}
+		function getImageLink(fileName){
+			if(!checkImageType(fileName)){
+				return;
+			}
+			var front=fileName.substr(0,12);
+			var end=fileName.substr(14);
+			
+			return front+end;
+		}
 		$(".fileDrop").on("dragenter dragover", function(event) {
 			event.preventDefault();
+		});
+		
+		$(".uploadedList").on("click","small",function(event){
+			var that=$(this);
+			$.ajax({
+				url:"deleteFile",
+				type:"POST",
+				data:{fileName:$(this).attr("data-src")},
+				dataType:"text",
+				success:function(result){
+					if(result=="deleted"){
+						that.parent("div").remove();
+					}
+				}
+			});
 		});
 
 		$(".fileDrop").on(
@@ -57,12 +89,15 @@ small {
 						type : 'POST',
 						success : function(data) {
 							var str = "";
+							console.log(data);
+							console.log(checkImageType(data));
 							if (checkImageType(data)) {
 								str = "<div>"
+								+"<a href='displayFile?fileName="+getImageLink(data)+"'>"
 										+ "<img src='displayFile?fileName="
-										+ data + "'/>" + data + "</div>";
+										+ data + "'/>" + getImageLink(data)+"</a><small data-src="+data+">X</small></div>";
 							} else {
-								str = "<div>" + data + "</div>";
+								str = "<div><a href='displayFile?fileName=" + data + "'>"+getOriginalName(data)+"</a>"+"<small data-src="+data+">X</small></div></div>";
 							}
 							
 							$(".uploadedList").append(str);
