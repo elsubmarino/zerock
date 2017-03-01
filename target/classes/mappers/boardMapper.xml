@@ -124,5 +124,13 @@ insert into tbl_attach(fullname,bno) values (#{fullName},LAST_INSERT_ID())
 select fullname from tbl_attach where bno=#{bno} order by regdate
 </select>
 
+<delete id="deleteAttach">
+delete from tbl_attach where bno=#{bno}
+</delete>
+
+<insert id="replaceAttach">
+insret into tbl_attach(fullname,bno) values (#{fullName},#{bno})
+</insert>
+
 
 </mapper>
